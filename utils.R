@@ -164,7 +164,3 @@ fetchAllRecords <- function(data_path, layer_number, token, geometry = FALSE, wh
   }
   return(result)
 }
-
-
-
-
