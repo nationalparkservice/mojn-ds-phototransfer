@@ -1,5 +1,5 @@
 library(desertsprings)
-library(dplyr)
+library(tidyverse)
 library(devtools)
 ##install desert springs package from github
 install_github("nationalparkservice/mojn-ds-rpackage", ref = "agol-import")
@@ -92,7 +92,7 @@ photos_external <- dplyr::bind_rows(repeat_photos_ext, veg_photos_ext, invasive_
 
 ### change visit date filter based on beginning of field season ###
 photo_paths_external <- photos_external %>%
-  filter(VisitDate >= "2021-10-01") %>%
+  filter(VisitDate >= "2023-10-01") %>%
   mutate(NewFilename = paste(SiteCode, format.Date(VisitDate, "%Y%m%d"), PhotoType, ExternalFileNumber, sep = "_"),
          NewFilename = paste0(NewFilename, ".JPG"),
          RenamedFileDir = file.path(normalizePath("M:/MONITORING/DS_Water/Data/Images/", winslash = .Platform$file.sep), SiteCode),
@@ -105,7 +105,7 @@ for(i in 1:nrow(photo_paths_external)) {
   if (length(OrigFile) == 1) {
     photo_paths_external$OrigFileName[[i]] <- OrigFile
   } else if (length(OrigFile) == 0) {
-    warning(paste0("File number ", photo_paths_external$ExternalFileNumber[[i]], ", taken at ", photo_paths_external$SiteCode[[i]], ", not found in ", photo_paths_external$OrigFileDir[[i]]), immediate. = TRUE)
+    warning(paste0(photo_paths_external$PhotoSOP[[i]],"-",photo_paths_external$PhotoType[[i]],",File number ", photo_paths_external$ExternalFileNumber[[i]], ", taken at ", photo_paths_external$SiteCode[[i]], ", not found in ", photo_paths_external$OrigFileDir[[i]]), immediate. = TRUE)
   } else if (length(OrigFile) > 1) {
     warning(paste0("More than one photo found matching file number ", photo_paths_external$ExternalFileNumber[[i]],  ", taken at ", photo_paths_external$SiteCode[[i]], " found in ", photo_paths_external$OrigFileDir[[i]]))
   }
@@ -137,22 +137,22 @@ for (i in 1:nrow(photo_paths_external)) {
 photo_paths_external_rpt <- photo_paths_external %>%
   filter(PhotoSOP == "RPT") %>%
   select(-OrigFileName, -OrigFileDir, -RenamedFileDir, -NewFilename)
-write.csv(photo_paths_external_rpt, "C:/Users/sierramoore/Documents/R/mojn-ds-phototransfer/Output/photo_paths_external_rpt.csv")
+write.csv(photo_paths_external_rpt, "C:/Users/mlehman/Documents/R/mojn-ds-phototransfer/Output/photo_paths_external_rpt.csv")
 
 photo_paths_external_veg <- photo_paths_external %>%
   filter(PhotoSOP == "RVG") %>%
   select(-OrigFileName, -OrigFileDir, -RenamedFileDir, -NewFilename)
-write.csv(photo_paths_external_veg, "C:/Users/sierramoore/Documents/R/mojn-ds-phototransfer/Output/photo_paths_external_veg.csv")
+write.csv(photo_paths_external_veg, "C:/Users/mlehman/Documents/R/mojn-ds-phototransfer/Output/photo_paths_external_veg.csv")
 
 photo_paths_external_inv <- photo_paths_external %>%
   filter(PhotoSOP == "INV") %>%
   select(-OrigFileName, -OrigFileDir, -RenamedFileDir, -NewFilename)
-write.csv(photo_paths_external_inv, "C:/Users/sierramoore/Documents/R/mojn-ds-phototransfer/Output/photo_paths_external_inv.csv")
+write.csv(photo_paths_external_inv, "C:/Users/mlehman/Documents/R/mojn-ds-phototransfer/Output/photo_paths_external_inv.csv")
 
 photo_paths_external_add <- photo_paths_external %>%
   filter(PhotoSOP == "MSC") %>%
   select(-OrigFileName, -OrigFileDir, -RenamedFileDir, -NewFilename)
-write.csv(photo_paths_external_add, "C:/Users/sierramoore/Documents/R/mojn-ds-phototransfer/Output/photo_paths_external_add.csv")
+write.csv(photo_paths_external_add, "C:/Users/mlehman/Documents/R/mojn-ds-phototransfer/Output/photo_paths_external_add.csv")
 
 
 ####Move and Rename Internal Photos####
@@ -292,19 +292,19 @@ for (i in 1:nrow(photo_paths_internal)) {
 photo_paths_internal_rpt <- photo_paths_internal %>%
   filter(PhotoSOP == "RPT") %>%
   select(-OrigFileDir, -RenamedFileDir, -fileName, -internalFilePath)
-write.csv(photo_paths_internal_rpt, "C:/Users/sierramoore/Documents/R/mojn-ds-phototransfer/Output/photo_pathsInt_rpt.csv")
+write.csv(photo_paths_internal_rpt, "C:/Users/mlehman/Documents/R/mojn-ds-phototransfer/Output/photo_pathsInt_rpt.csv")
 
 photo_paths_internal_veg <- photo_paths_internal %>%
   filter(PhotoSOP == "RVG") %>%
   select(-OrigFileDir, -RenamedFileDir, -fileName, -internalFilePath)
-write.csv(photo_paths_internal_veg, "C:/Users/sierramoore/Documents/R/mojn-ds-phototransfer/Output/photo_pathsInt_veg.csv")
+write.csv(photo_paths_internal_veg, "C:/Users/mlehman/Documents/R/mojn-ds-phototransfer/Output/photo_pathsInt_veg.csv")
 
 photo_paths_internal_inv <- photo_paths_internal %>%
   filter(PhotoSOP == "INV") %>%
   select(-OrigFileDir, -RenamedFileDir, -fileName, -internalFilePath)
-write.csv(photo_paths_internal_inv, "C:/Users/sierramoore/Documents/R/mojn-ds-phototransfer/Output/photo_pathsInt_inv.csv")
+write.csv(photo_paths_internal_inv, "C:/Users/mlehman/Documents/R/mojn-ds-phototransfer/Output/photo_pathsInt_inv.csv")
 
 photo_paths_internal_add <- photo_paths_internal %>%
   filter(PhotoSOP == "MSC") %>%
   select(-OrigFileDir, -RenamedFileDir, -fileName, -internalFilePath)
-write.csv(photo_paths_internal_add, "C:/Users/sierramoore/Documents/R/mojn-ds-phototransfer/Output/photo_pathsInt_add.csv")
+write.csv(photo_paths_internal_add, "C:/Users/mlehman/Documents/R/mojn-ds-phototransfer/Output/photo_pathsInt_add.csv")

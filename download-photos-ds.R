@@ -1,4 +1,5 @@
 library(magrittr)
+library(jpeg)
 keyring::key_set("AGOL", "mojn_data")
 source(here::here("utils.R"))
 ##Download internal photos from AGOL for each internal photo table
